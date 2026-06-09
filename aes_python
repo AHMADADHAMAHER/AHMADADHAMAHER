@@ -1,0 +1,21 @@
+from Crypto.Cipher import AES
+
+key = b'rahsiakuncinwc11'
+message =  b'assignmentcipher'
+
+cipher_encrypt = AES.new(key, AES.MODE_GCM)
+nonce = cipher_encrypt.nonce
+ciphertext, tag =cipher_encrypt.encrypt_and_digest(message)
+
+print("AES-128 ENCRYPTION")
+print(f"message    : {message.decode()}")
+print(f"key        : {key.decode()}")
+print(f"nonce       :{nonce.hex()}")
+print(f"tag         : {tag.hex()}")
+print(f"ciphertext  : {ciphertext.hex()}")
+
+cipher_decrypt = AES.new(key, AES.MODE_GCM, nonce=nonce)
+decrypted = cipher_decrypt.decrypt_and_verify(ciphertext, tag)
+
+print("\nDECRYPTION")
+print(f"Decrypted  :  {decrypted.decode()}")
